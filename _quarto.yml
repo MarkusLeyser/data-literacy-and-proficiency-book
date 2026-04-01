@@ -1,6 +1,5 @@
 project:
   type: book
-  output-dir: docs
 
 book:
   title: "data-literacy-and-proficiency"
@@ -19,8 +18,8 @@ format:
     theme:
       - cosmo
       - brand
-  pdf:
-    documentclass: scrreprt
+    css: webex.css
+    include-after-body: webex.js
 
 
 
