@@ -9,6 +9,7 @@ To learn more about Quarto books visit <https://quarto.org/docs/books>.
 
 ```{webr}
 library(sf)
+library(ggplot2)
 nc <- st_read(system.file("shape/nc.shp", package="sf"))
 nc
 ggplot() +
