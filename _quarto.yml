@@ -14,12 +14,13 @@ book:
 bibliography: references.bib
 
 format:
-  html:
+  live-html:
     theme:
       - cosmo
       - brand
     css: webex.css
     include-after-body: webex.js
 
+engine: knitr
 
 

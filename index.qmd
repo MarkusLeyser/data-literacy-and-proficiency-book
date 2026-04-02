@@ -1,5 +1,16 @@
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
+
 # Preface {.unnumbered}
 
 This is a Quarto book.
 
 To learn more about Quarto books visit <https://quarto.org/docs/books>.
+
+```{webr}
+library(sf)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+nc
+ggplot() +
+geom_sf(data = nc, aes(fill = BIR79))
+```
