@@ -3,3 +3,26 @@
 This is a book created from markdown and executable code.
 
 See @knuth84 for additional discussion of literate programming.
+
+
+Hello world!
+
+
+```{r quiz-setup, include = FALSE}
+library(exams)
+library(exams2forms)
+exercise_directory <- file.path("exams", "exercises") #run exams-setup.R first to install example questions
+exm <- list(
+  file.path(exercise_directory, "swisscapital.Rmd"),
+  file.path(exercise_directory, "deriv.Rmd")
+)
+```
+
+Which of the following villains is not an adversary of Batman? `r forms_schoice(c("Bane", "Riddler", "Thanos", "Poison Ivy"), c(FALSE, FALSE, TRUE, FALSE), display = "dropdown")`.
+
+```{r quiz, echo = FALSE, message = FALSE, results = "asis"} 
+exams2forms(exm, n = 3)
+# exams2forms(list("swisscapital.Rmd", "swisscapital.Rmd"), solution = FALSE)
+```
+
+

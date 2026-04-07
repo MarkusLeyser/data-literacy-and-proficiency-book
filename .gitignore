@@ -138,3 +138,9 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,r
 /.quarto/
 **/*.quarto_ipynb
+
+# example quiz question files from the exams and exams2forms packages
+banana.png
+orange.png
+pineapple.png
+

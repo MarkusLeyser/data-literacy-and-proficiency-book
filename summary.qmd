@@ -1,5 +1,18 @@
 # Summary
 
-In summary, this book has no content whatsoever.
-
 This book is truly interesting and full of joy :)
+
+In summary, this book has no content whatsoever. 
+This is another plain text sentence. 
+**This is a bold face sentence.**
+
+1. First point
+2. Second point
+
+## Summary First section
+
+```{r}
+library(tidyverse)
+ggplot(iris) +
+    geom_point(aes(x = Sepal.Width, y = Sepal.Length))
+```

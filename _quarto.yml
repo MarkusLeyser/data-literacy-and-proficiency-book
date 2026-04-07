@@ -1,6 +1,5 @@
 project:
   type: book
-  output-dir: docs
 
 book:
   title: "data-literacy-and-proficiency"
@@ -15,12 +14,13 @@ book:
 bibliography: references.bib
 
 format:
-  html:
+  live-html:
     theme:
       - cosmo
       - brand
-  pdf:
-    documentclass: scrreprt
+    css: webex.css
+    include-after-body: webex.js
 
+engine: knitr
 
 
