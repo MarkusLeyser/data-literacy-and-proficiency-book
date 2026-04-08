@@ -15,3 +15,39 @@ nc
 ggplot() +
 geom_sf(data = nc, aes(fill = BIR79))
 ```
+
+::: {.panel-tabset}
+
+### Mini Code Assignment
+
+```{webr-r}
+library(sf)
+library(ggplot2)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+nc
+
+#--- plot the "BIR79 attribute in a cloropleth map"  ---#
+#--- write code below  ---#
+
+```
+
+### Solution
+```{r, eval = FALSE}
+#| code-fold: false
+
+library(sf)
+library(ggplot2)
+nc <- st_read(system.file("shape/nc.shp", package="sf"))
+```
+```{r, eval = FALSE}
+#| code-fold: true
+#| code-summary: Hint 1
+ggplot() + 
+```
+```{r, eval = FALSE}
+#| code-fold: true
+#| code-summary: Hint2
+geom_sf(data = nc, aes(fill = BIR79))
+```
+
+:::
