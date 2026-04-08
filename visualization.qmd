@@ -1,0 +1,24 @@
+# Visualization
+
+Here, we talk about figures.
+
+In summary, this book has no content whatsoever. 
+This is another plain text sentence. 
+**This is a bold face sentence.**
+
+1. First point
+2. Second point
+
+## Heatmap
+
+```{r}
+library(tidyverse)
+df = penguins %>% 
+  select(species, island) %>% 
+  table() %>% 
+  as.data.frame
+
+ggplot(data = df) +
+  geom_raster(aes(x = species, y = island, fill = Freq)) +
+  scale_fill_viridis_c()
+```
