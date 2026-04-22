@@ -1,0 +1,199 @@
+# How to organize and preprocess data
+
+\
+This chapter gives an overview of key tools for organizing and preprocessing a data set, which is typically the first step of any data evaluation and an essential perquisite for gaining a high data quality and reliable results. It involves:
+
+- formatting of data in a way that is usable for further analyses (e.g., encoding of categorical variables, tidying,...)
+- application of data transformations (e.g., calculation of new variables, ...)
+- identification and handling of inconsistencies
+- identification and handling of outliers
+- identification and handling of missing values
+
+
+## Formatting data
+
+### Tidy data
+Tidy data is a standardized way of organizing tabular data. A tidy data set satisfies three properties: 
+
+- each variable is stored as a separate column
+- each observation is stored as a separate row
+- each value has its own cell
+
+![Source: @wickham17](figures/orga/tidy){fig-align="center"}
+
+### Data formats
+Tabular data can be structured in either a wide or a long format:
+
+- *Wide format:* In wide data there is one row per observation, with each variable measurement of that observation in its own column.
+- *Long format:* In long data there are multiple rows per observation, with one row for each measurement of the same observation. In order to distinguish between different rows belonging to the same observation, the data set must contain a categorical variable that identifies the name of the measurement and a variable that identifies the value of the respective measurement. Note that the measurements that are structured in long format (i.e., combined in a new variable) must have the same data type.
+
+The following graphic shows an example of the same data, expressed both in wide and in long format.
+
+![Source: <https://www.statology.org/long-vs-wide-data/>](figures/orga/wideLong){fig-align="center"}
+
+The choice of format mainly depends on the data analyses that you want to perform later on. Depending on the software and analyses methods that are used, it might be necessary to switch between different formats.  
+
+
+## Transforming data
+
+Preparing the data for statistical analysis often involves some kind of data transformation as, e.g., merging of separate data sets, reordering of observations, or creation of new variables. Key operations involve:
+
+- *Filtering observations and selecting features:*
+
+- *Merging data:* 
+
+- *Reordering data:*
+
+- *Splitting and merging columns:*
+
+- *Creating new variables:*
+
+- *Calculating simple summary statistics:*
+
+...
+
+
+### Data transformation in R: the tidyverse package*
+
+The R package `tidyverese` is a collection of R packages that focus on tools for data preprocessing, visualization, and basic descriptive statistics. These packages share a common, highly readable syntax, often using piping (`%>%` or `|>`) to chain commands. Comprehensive information on the functionality of the packages can be found at <https://tidyverse.org/>.
+
+:::: {.columns}
+::: {.column width="15%"}
+![](figures/orga/tibble.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/dplyr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/ggplot2.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/tidyr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/purrr.png)
+:::
+::::\
+
+:::: {.columns}
+::: {.column width="15%"}
+![](figures/orga/readr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/stringr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/forcats.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/lubridate.png)
+:::
+::::
+
+Core packages of tidyverse are:
+
+- `tibble` (data frame with better formatting)
+- `dplyr` (data manipulation)
+- `ggplot2` (visualization)
+- `tidyr` (tidy and reshape data)
+- `purrr` (functional programming toolkit)
+- `readr` (import of rectangular text data)
+- `stringr` (string operations)
+- `forcats` (tools for working with factors)
+- `lubridate` (tools for working with date/time data)
+
+
+....
+
+
+## Inconsistencies and outliers
+The process of data preprocessing typically involves the identification and (whenever possible) the correction of data entry and measurement errors, conflicting information, structural differences, and missing values to ensure high-quality, reliable data for analysis. 
+Key techniques for resolving data inconsistencies are:
+
+- *Checking variable constraints:* Identifying invalid numerical values (e.g., negative age, body weight of zero etc.). This. can, e.g., be done by calculating summary statistics (like minimum, maximum) or by visual inspection.
+
+- *Checking inconsistent labeling of categorical variables:* Identifying variations in spelling or labels of qualitative variables (e.g., "female," "Female," and "f"). This can, e.g., be done by frequency tables. Values that are intended to denote the same category should be consolidated into a single, standard entry. 
+
+- *Deduplication:* Identifying duplicate records, where the same subject is listed multiple times. Before a suspected duplicate is removed from the data it must be verified that it is indeed a duplicate (i.e., that it was created by mistake) and not a new observation of the respective subject. Longitudinal data, for example, contain repeated observations of the same subjects. 
+
+- *Checking conflicting information:* Identifying illogical information resulting from two or more variables (e.g., an entry or start date that is later than an end data). This can be done by cross-field validation.
+
+- *Standardizing variable formats:* Ensuring consistency across data types, e.g., by converting all dates to a standard format (e.g., YYYY-MM-DD), converting quantitative variables mistakenly stored as a string into numerical variables, etc. When merging data from multiple sources, variable formats should be standardized in advance (e.g., ensuring the same units of measurements, resolving naming conflicts of identical variables etc.). 
+
+- *Checking missing values:* Missing values are gaps in the data. Sometimes it might be possible to get the missing information (e.g., when information contained in raw data, such as patient records, has not been entered in the database). In many cases, however, this is not possible and a strategy to handle the missing data must be chosen. Don't delete rows or columns containing missing values from the data set as this can introduce substantial bias to the analysis (see @sec-missing).
+
+Depending on the source, the data quality might differ substantially. For example, clinical trials typically involve data management practices like electronic data capture systems, automatic validation checks, audit trails, and proactive monitoring, to ensure a high data quality. In contrast, a publicly available data set might have never been checked for errors, inconsistencies etc.
+
+Another step in data preprocessing is the detection of outliers. Outliers are data points that differ extremely from other observations, often indicating a skewed distribution (see @sec-descriptive) or rare measurements. They can be identified by summary statistics (like minimum, maximum) or visual inspection of the data. If there are outliers in the data, consider using robust statistical methods (like median instead of mean).
+
+
+## Data completeness {#sec-missing}
+Nearly everywhere, where data are measured and recorded, issues with incomplete data, i.e., **missing values** occur. Missing values are gaps in a data set where data for a particular variable were not recorded, typically appearing as blank cells or "NA" values.
+
+Common reasons for missing values are:
+
+- *measurement issues:* values may not have been measured or are considered implausible (e.g., technical issues, measurement error, error during data entry)
+- *data loss:* data may have been lost during collection or processing
+- *respondent error:* participants of a study may choose not to answer certain questions
+- *drop out:* in prospective studies participants may leave before the end of the study
+- *structural reasons:* some measurements may not be applicable to all observations (e.g., the brand of car one drives for people who don't have a car).
+
+Missing values pose a problem for data analysis, especially when the number of missing values is large. That's because the absence of data:
+
+- reduces the chance of detecting a true effect (i.e., statistical power) and increases the uncertainty of estimates, 
+- can reduce the representativeness of the samples
+- can introduce bias in the results of data analyses,
+- can complicate the analysis and make certain analytical techniques impossible to use
+
+It is crucial to understand the reasons for the missing data before choosing a strategy to handle them. Mishandling of missing data can compromise the validity and generalizability of data analytical findings. 
+
+### Types of missing data
+We distinguish between the following missingness mechanisms:
+
+**Missing completely at random (MCAR)**\
+The missingness of data is not related to any other values, observed or missing. This is the simplest case to handle, but often an unrealistic assumption.
+
+[Example]{.underline}: Missing values due to data entry error.
+
+**Missing at random (MAR)**\
+The missingness is related to other observed variables in the dataset, but not to the unobserved missing values itself. This is usually a more realistic assumption than MCAR.
+
+[Example]{.underline}: In a study on depression, men may be less likely to complete a survey on their depression severity compared to women. The missingness is related to the observed variable "gender", but not to the depression score itself.
+
+**Missing not at random (MNAR)**\
+The missingness is related to the unobserved missing values itself. This is the most challenging type of missingness to handle.
+
+[Example]{.underline}: Survey respondents with heavy alcohol consumption not answering a question about drinking. The missingness depends on the unobserved variable itself.
+
+### Handling of missing values
+The best way to avoid problems caused by missing values is to prevent their occurrence by well-planning research and data collection. However, even in a well-designed research projects, missing data typically occur to some extend.\
+All data analyses using incomplete data rely on some assumption about the missingness mechanism (i.e., MCAR, MAR, MNAR). Therefore, one has to carefully evaluate which assumption is most plausible, especially if there is a substantial amount of missing values. The assumption that is made should guide the choice of analysis methods used. Note that many traditional analysis methods can’t deal with missing values in the sense that observations that have missing values in at least one of the variables being analyzed are excluded from the analysis (this is also referred to as listwise deletion). \
+As assumptions about the missingness mechanism can’t be verified and may be wrong, **sensitivity analyses** are used to check robustness of the results to deviations from the  assumption that is made.
+
+A number of ways to handle missing data have been developed. The principles of the most commonly used methods are outlined below. Further information on missing data and methods to handle them can be found, e.g., in [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/) by @vanBuuren18. 
+
+**Listwise deletion** \
+This is the most common approach to missing data. Listwise deletion means that observations (rows) that have any missing values are removed from the data set. Only the remaining data (available cases) are analyzed. As many traditional analysis methods can’t deal with missing values listwise deletion is often the default option in statistical software tools. Some researchers insist that it may introduce bias in the estimation of the parameters. If the MCAR assumption is satisfied, it produces unbiased estimates and conservative results. However, if the data do not fulfill the MCAR assumption, it can cause biased results. Furthermore, if the sample is small, it reduces the chance of detecting a true effect. 
+
+**Pairwise deletion**\
+Pairwise deletion omits incomplete cases only during analyses involving variables with missing values, while keeping these cases in analyses that involve variables without missing values. For example, if a data set has missing values in columns A and B, but not in C and D, pairwise deletion ignores rows with missing data in all analyses including variables A and B, but uses those same rows in analyses including only variables C and D, i.e. where data is present. Pairwise deletion preserves more information than listwise deletion. However, different calculations are based on different sets of data. Furthermore, it requires the MCAR assumption in order to produce unbiased results.
+
+**Simple imputation**\
+Simple imputation replaces missing values in a variable with existing values of the same variable as, e.g., the *mean* or *median* of that variable. In longitudional studies or time series data where a variable is measured repeatedly in the same subjects over a certain period of time, missing values of this variable are sometimes replaced by the last known value from the respective subject. This method is referred to as *last observation carried forward (LOCF)*.  \
+In contrast to deletion, simple imputation methods do not result in a loss of sample size. However, they also rely on the MCAR assumption and often introduces bias as they artificially reduce the variance in the data.
+
+**Maximum likelihood**\
+Some methods like linear mixed models (LMMs)  handle missing data by using maximum likelihood based estimation techniques. This approach is valid, if the MAR assumption is fulfilled.
+
+**Advanced imputation**\
+Advanced imputation techniques use other variables to predict the missing values.\ 
+Examples are:
+
+- *Regression imputation:* uses a regression model to predict the missing values based on other variables
+- *K-Nearest Neighbors (KNN) imputation:* predicts a missing value by using the average or median of the k most similar data points based on other features
+- *Multiple Imputation by Chained Equations (MICE):* creates multiple complete data sets with
+different imputations, which are then pooled to account for uncertainty
+
+These techniques rely on the MAR assumption. 
+
+

@@ -1,5 +1,9 @@
 # Introduction
 
+\
+This chapter 
+definition, data literacy and proficiency, data structure, how data can be characterized.Prequisites R
+
 ## What is data?
 
 Data can be understood as a collection of factual elements -- such as numbers, text, or recorded observations -- that represent information about the world. They:
@@ -97,3 +101,108 @@ A further characteristic of data is the **data dimennsionality**. We distinguish
 -   *multivariate* feature $(X_1,\ldots,X_p)$: multiple values $(x_{i1},\ldots,x_{ip})$ per observation $i$
 
 -   *high-dimensional* data: multivariate feature with large $p$
+
+
+## Programming
+Programming is a tool that you will need if you are not only interested in understanding the theoretical foundation of data literacy and data proficiency, but also want to practically perform data analyses. \
+Throughout the course we will use the software R to demonstrate practical application of the methods presented.
+R is a free, open-source programming language and software environment designed for statistical computing, data analysis, and high-quality graphics. It can handle a wide range of basic and complex analyses making it a valuable asset for many data-related tasks.
+
+This chapter provides basic instructions on how to get started with R. For a more detailed introduction to the R language, please refer to [Hands on Programming](<https://rstudio-education.github.io/hopr/index.html>) by @grolemund14. 
+
+### Installing R and RStudio
+Use this link [<https://cloud.r-project.org/>] to download R. Select the proper version for your laptop.
+
+![](figures/intro/R){fig-align="center"}
+
+RStudio is an integrated development environment that provides a user-friendly interface for writing and managing R code. You can download and install it from [<https://posit.co/downloads/>].
+
+![](figures/intro/RStudio){fig-align="center"}
+
+After you have installed both R and RStudio, you can start using R by opening the RStudio program. We recommend to update R and RStudio regularly. Sometimes this requires you to re-install all your packages.
+
+### Installing R packages
+R packages are collections of R functions, data, and compiled code that extend the functionality of the base R language. They are typically located in an online  repository that is accessible to everyone. Some of the most popular repositories for R packages are:
+
+- [CRAN](https://cran.r-project.org/): The Comprehensive R Archive Network is the official repository and maintained by the R community around the world. It features $> 20,000$ available packages. Package that are  published here need to adhere to CRAN policies and must pass several tests. 
+
+- [Bioconductor](https://www.bioconductor.org/): This is a repository focusing on the development and sharing of open source software for analysis of biological data. Like CRAN, it has its own submission and review processes.
+
+- [Github](https://github.com/): A proprietary developer platform (not R-specific) providing unlimited public and private repositories, robust documentation and support, encouragement of collaboration on code, content, and research. There is no strict review process associated with it.
+
+- [kaggle](https://www.kaggle.com/datasets): A data science competition platform and online community providing powerful tools and resources for data analysis.
+
+
+Packages can be installed using the `install.packages()` function. The following line of code installs the tidyverse package. Type it in the console, then press enter to run it.
+```{r}
+#| label: install
+#| eval: false
+
+install.packages("tidyverse")
+```
+
+Once installed, a package has to be loaded into the session to be used.
+```{r}
+#| label: load
+#| eval: false
+
+library(tidyverse)
+```
+
+To install more than one R package at a time, just write them as a character vector in the first argument of the `install.packages()` function.
+```{r}
+#| label: sev.pack
+#| eval: false
+
+install.packages("MASS", "rms")
+```
+
+To unload a given package, you can use the `detach()` function.
+```{r}
+#| label: unload
+#| eval: false
+
+detach("package:tidyverse", unload=TRUE)
+```
+
+
+### Sources of documentation and help
+
+Obtain general overview of the package.
+```{r}
+#| label: help
+#| eval: false
+
+library(MASS) ## load the package
+help(package = "MASS")
+```
+
+Obtain documentation for a specific function from the package.
+```{r}
+#| label: help2
+#| eval: false
+
+help(boxcox, package = "MASS")
+```
+
+For some packages, there is additional documentation in the form of vignettes. These are documents in which the authors present some of the features of their package in more detail. 
+The list of vignettes existing for an installed packages can be obtained via the function `browseVignettes()`. A browser window will open and you can click on the preferred vignette to open it.
+```{r}
+#| label: help3
+#| eval: false
+ 
+library(tidyverse) ## load the package
+browseVignettes(package="tidyverse")
+```
+
+If you prefer to stay in the command line, use the `vignette()` function to get a list of existing vignettes or to obtain the vignette you want to explore.
+```{r}
+#| label: vignette
+#| eval: false
+
+vignette(package = "tidyverse")
+vignette("manifesto") 
+```
+
+
+

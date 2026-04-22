@@ -1,5 +1,8 @@
-# How to draw insights from data
+# How to draw insights from data {#sec-statistics}
 
+\
+This chapter is about traditional statistical methods that focus on understanding relationships between variables, providing a probabilistic interpretation of these relationships, quantifying uncertainty in results, and making inference about a population.
+It provides the fundamental theory for many data science tasks.
 
 ## Fundamentals of statistics {#sec-fundamentals}
 Statistics is a scientific discipline that provides methods for collecting, describing, and analyzing data. A basic understanding of statistical concepts is essential for every data science task. Key aspects of data literacy and data proficiency for which we need statistics are:

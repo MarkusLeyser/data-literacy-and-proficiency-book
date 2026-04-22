@@ -10,7 +10,9 @@ book:
     - 01_welcome.qmd
     - 02_modularization.qmd
     - 03_introduction.qmd
-    - 05_statistics.qmd
+    - 05_data_management.qmd
+    - 06_statistics.qmd
+    - 07_ml.qmd
     - intro.qmd
     - visualization.qmd
     - summary.qmd

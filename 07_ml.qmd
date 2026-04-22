@@ -1,0 +1,48 @@
+# How to identify patterns and make predictions
+
+\
+This chapter is about methods that focus on the identification of patterns in potentially complex data and the use of these patterns to make data-driven predictions. These methods are widely used in the field of machine learning, a subfield of artificial intelligence, with some of them being rooted in traditional statistics. While both the methods described in @sec-statistics and those described here are analytical approaches to data that share a common objective (i.e., turning raw data into actionable insights), there is a notable difference between these methods in the way they approach this objective. Traditional statistics has a more "tight" mathematical framework, i.e., it is often model-driven and relies on a priori assumptions (e.g., regarding the distribution of the data). Machine learning is data-driven, typically ignoring a priori assumptions in favor of learning patterns directly from data. Therefore, the strength of traditional statistics lies more in interpretability and inference, while the strength of machine learning lies more in prediction accuracy and exploration.
+
+
+## Regression
+
+### Linear regression
+
+### Regression tree
+
+### Random forest
+
+### Boosting
+
+
+## Classification
+
+### Logistic regression
+
+### Regression tree
+
+### Random forest
+
+
+## Performance assessment
+
+
+## Hyperparameter optimization
+
+
+## Clustering
+
+### k-means
+
+### Hierarchical clustering
+
+### Density-based spatial clustering of applications with noise (DBSCAN)
+
+
+## Dimensionality reduction
+
+### Principal component analysis (PCA)
+
+### t-distributed stochastic neighbor embedding (t-SNE)
+
+
