@@ -4,4 +4,6 @@ The course is organized along the data lifecycle. It comprises the following mod
 
 -   ...
 
-Each module consists of a lecture part and an exercise part. There are always high-level components that focus on understanding without programming requirements. Some modules also include advanced components that go more into depth and also involve programming.
+Each module consists of a lecture part and an exercise part. There are always high-level components that focus on understanding without programming requirements. Some modules also include advanced components that go more into depth and also involve programming. These components are highlighted with a light blue background. 
+
+Exercises that involve programming are designed as interactive R code chunks that can be edited and executed directly by the user. Note that pages containing code chunks may take a little time to load.

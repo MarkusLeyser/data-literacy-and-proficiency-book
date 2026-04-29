@@ -27,9 +27,30 @@ Tabular data can be structured in either a wide or a long format:
 - *Wide format:* In wide data there is one row per observation, with each variable measurement of that observation in its own column.
 - *Long format:* In long data there are multiple rows per observation, with one row for each measurement of the same observation. In order to distinguish between different rows belonging to the same observation, the data set must contain a categorical variable that identifies the name of the measurement and a variable that identifies the value of the respective measurement. Note that the measurements that are structured in long format (i.e., combined in a new variable) must have the same data type.
 
-The following graphic shows an example of the same data, expressed both in wide and in long format.
+The following tables shows an example of the same data, expressed both in wide and in long format.
+```{r}
+#| label: format
+#| echo: false
+#| message: false
 
-![Source: <https://www.statology.org/long-vs-wide-data/>](figures/orga/wideLong){fig-align="center"}
+library(tidyverse)
+old_wide = read_table("
+subject sex control cond1 cond2
+      1   M     7.9  12.3  10.7
+      2   F     6.3  10.6  11.1
+      3   F     9.5  13.1  13.8
+      4   M     11.5 13.4  12.9
+")
+
+new_long = old_wide %>%
+  pivot_longer(
+    cols = control:cond2, 
+    names_to = "variable",
+    values_to = "value")
+
+knitr::kable(old_wide,format = "html", caption = "Data in wide format")
+knitr::kable(new_long,format = "html", caption = "Data in long format")
+```
 
 The choice of format mainly depends on the data analyses that you want to perform later on. Depending on the software and analyses methods that are used, it might be necessary to switch between different formats.  
 
@@ -38,73 +59,16 @@ The choice of format mainly depends on the data analyses that you want to perfor
 
 Preparing the data for statistical analysis often involves some kind of data transformation as, e.g., merging of separate data sets, reordering of observations, or creation of new variables. Key operations involve:
 
-- *Filtering observations and selecting features:*
+- filtering observations and selecting features
+- reordering of rows
+- renaming of variables
+- adjusting the data type (e.g., store a variable as factor instead of a character string)
+- creating new variables
+- merging data sets
+- splitting and merging columns
+- calculating simple summary statistics
 
-- *Merging data:* 
-
-- *Reordering data:*
-
-- *Splitting and merging columns:*
-
-- *Creating new variables:*
-
-- *Calculating simple summary statistics:*
-
-...
-
-
-### Data transformation in R: the tidyverse package*
-
-The R package `tidyverese` is a collection of R packages that focus on tools for data preprocessing, visualization, and basic descriptive statistics. These packages share a common, highly readable syntax, often using piping (`%>%` or `|>`) to chain commands. Comprehensive information on the functionality of the packages can be found at <https://tidyverse.org/>.
-
-:::: {.columns}
-::: {.column width="15%"}
-![](figures/orga/tibble.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/dplyr.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/ggplot2.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/tidyr.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/purrr.png)
-:::
-::::\
-
-:::: {.columns}
-::: {.column width="15%"}
-![](figures/orga/readr.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/stringr.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/forcats.png)
-:::
-::: {.column width="15%"}
-![](figures/orga/lubridate.png)
-:::
-::::
-
-Core packages of tidyverse are:
-
-- `tibble` (data frame with better formatting)
-- `dplyr` (data manipulation)
-- `ggplot2` (visualization)
-- `tidyr` (tidy and reshape data)
-- `purrr` (functional programming toolkit)
-- `readr` (import of rectangular text data)
-- `stringr` (string operations)
-- `forcats` (tools for working with factors)
-- `lubridate` (tools for working with date/time data)
-
-
-....
-
+Practical application of basic data transformations is illustrated in @sec-preprocess.
 
 ## Inconsistencies and outliers
 The process of data preprocessing typically involves the identification and (whenever possible) the correction of data entry and measurement errors, conflicting information, structural differences, and missing values to ensure high-quality, reliable data for analysis. 
@@ -197,3 +161,383 @@ different imputations, which are then pooled to account for uncertainty
 These techniques rely on the MAR assumption. 
 
 
+## Data preprocessing in R: the tidyverse package {#sec-preprocess}
+::: {style="background-color: #e6f7ff; padding: 15px;"}
+
+The R package `tidyverese` is a collection of R packages that focus on tools for data preprocessing, visualization, and basic descriptive statistics. These packages share a common, highly readable syntax, often using piping (`%>%` or `|>`) to chain commands. Comprehensive information on the functionality of the packages can be found at <https://tidyverse.org/>.
+
+:::: {.columns}
+::: {.column width="15%"}
+![](figures/orga/tibble.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/dplyr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/ggplot2.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/tidyr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/purrr.png)
+:::
+::::\
+
+:::: {.columns}
+::: {.column width="15%"}
+![](figures/orga/readr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/stringr.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/forcats.png)
+:::
+::: {.column width="15%"}
+![](figures/orga/lubridate.png)
+:::
+::::
+
+Core packages of tidyverse are:
+
+- `tibble` (data frame with better formatting)
+- `dplyr` (data manipulation)
+- `ggplot2` (visualization)
+- `tidyr` (tidy and reshape data)
+- `purrr` (functional programming toolkit)
+- `readr` (import of rectangular text data)
+- `stringr` (string operations)
+- `forcats` (tools for working with factors)
+- `lubridate` (tools for working with date/time data)
+
+### From data frame to tibble
+Base R ships with its own `data.frame` object. The `tibble` package introduces a new data structure (`tbl_df` class) -- the tibble -- for rectangular data (i.e., structured data sets organized into rows and columns).
+
+[Example]{.underline}:
+```{r}
+#| label: tibble
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+as_tibble(penguins)
+```
+
+In most use cases, `data.frame` and `tibble`  objects act similar. However, the tibble provides better formatting (compared to the traditional data frame) and a more informative output as it:
+
+- automatically guesses the class of each variable,
+- doesn’t convert data classes (prior to R 4.0, base R used to convert character variables into factors),
+- allows invalid (= nonsyntactic) R names for the features (i.e., column headers), e.g., ":-D" or "1000"
+- does not change the name of the variables (e.g., base R adds an "X" in front of variables that don’t begin with a letter)
+- don't create row names
+- shows a manageable section of the data (by default prints the first 10 rows and the number of columns that fit on screen)
+
+Data sets can easily be transformed back and forth via `as_tibble()` (convert a data frame into a tibble) and `as.data.frame()` (convert a tibble into a data frame).
+
+### Data import and export with readr {#sec-readr}
+In base R imported data are stored as `data.frame`. Typical commands to import data are: 
+
+- `read.table()` 
+- `read.csv()`
+- `read.delim()` 
+
+Using import functions from `readr` the data are stored as `tibble.` Typical commands are:
+
+- `read_table()`
+- `read_csv()`
+- `read_delim()`
+
+These functions are often 2 to 10 times faster than their counterparts from base R. A progress bar is shown when loading large data sets.
+
+[Example]{.underline}: The following example is from @wickham17. We will import a simple data set from <https://pos.it/r4ds-students-csv> that is stored as a CSV (comma-separated values) file. Below is a representation of the data as a table.
+```{r}
+#| label: students_data
+#| echo: false
+#| message: false
+
+students = read_csv("https://pos.it/r4ds-students-csv")
+knitr::kable(students,format = "html")
+```
+
+To import the data into R, we can use the function `read_csv()` from `readr`.
+The first argument of this function is the path to the file. 
+```{r}
+#| label: readr
+
+students = read_csv("https://pos.it/r4ds-students-csv")
+
+students
+```
+
+When running `read_csv()`, it prints a message displaying the number of rows and columns of the data set, the delimiter that was used to separate the columns, and the column names listed by the data type (class). It also prints information about how to retrieve the full column specification and how to quiet this message. 
+
+You may have noticed that the `favourite.food` column contains the character string "N/A", which should be a missing value that R recognizes as "not available" (NA). This can be addressed by the `na` argument. By default, read_csv() only recognizes empty strings (`""`) as NAs.
+
+```{r}
+#| label: students_NA
+#| message: false
+
+students = read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", ""))
+students
+```
+
+You may also see that the features `Student ID` and `Full Name` are surrounded by backticks. This is because their names contain spaces and are therefore non-syntactic. One option to turn their names into syntactic ones is to specify `name_repair = "universal"`.
+
+```{r}
+#| label: students_names
+#| message: false
+
+students = read_csv("https://pos.it/r4ds-students-csv", na = c("N/A", ""),
+                    name_repair = "universal")
+students
+```
+
+There are some further issues in the students data that we probably want to fix before analysis. We will come back to that in chapter @sec-dplyr.
+
+Data export into a preferred format can be done using the `write.*()` functions from base R, like:
+
+- `write.table()`
+- `write.csv()`
+- `write.delim() `
+
+or their counterparts from `readr`: 
+
+- `write_table()`
+- `write_csv()`
+- `write_delim()`
+
+Using commands from `readr` increases the chance for the output file being read back in correctly by always encoding strings in UTF-8, as well as dates and date times in ISO8601 format.
+
+### Transforming data with dplyr {#sec-dplyr}
+The `dplyr` package provides tools for solving the most common data manipulation tasks using a consistent set of functions. Key functions are:
+
+- `filter()`: select specific rows
+- `select()`: select specific columns
+- `arrange()`: reorder the rows in ascending or descending order of certain variables
+- `rename()`: change the names of individual variables 
+- `mutate()`: transform variable or create new variables 
+- `summarise()`: compute summary statistics
+
+All operations can be performed by certain values of specific variables using the `group_by` statement. Furthermore, operations can be chained sequentially by the pipe operator `%>%` (or `|>`), i.e.
+
+```{r}
+#| label: pipe
+#| eval: false
+
+data %>%
+  fun1(...) %>%
+  fun2(...) %>%
+  fun3(...)
+```
+
+The output of the i-th command will automatically be used as input
+for the (i+1)-st command. The output is always a new data frame.
+
+Coming back to our example data from chapter @sec-readr we can, e.g., customize the column names using the `rename()` function.
+
+```{r}
+#| label: students_rename
+#| message: false
+
+students = students %>%
+  rename(
+    student_id = Student.ID,
+    full_name = Full.Name,
+    favourite_food = favourite.food,
+    meal_plan = mealPlan,
+    age = AGE
+  )
+
+students
+```
+Now let's have a look at the variable types. The feature `meal_plan` is a categorical variable with a known set of possible values, that should be represented as a factor (<fct>) instead of a character (<chr>) in R. Furthermore, the feature `age` is represented as a character because one of the observations was typed out as "five" instead of a numeric 5. To fix these issues we can use the `mutate()` function.
+
+```{r}
+#| label: students_mutate
+
+students = students %>%
+  mutate(
+    meal_plan = factor(meal_plan),
+    age = parse_number(if_else(age == "five", "5", age))
+  )
+
+students
+```
+
+The function `mutate()` can also be used to calculate new variables, e.g.
+
+```{r}
+#| label: students_new_var
+
+students %>%
+  mutate(age_month = age * 12)
+```
+
+There are some variants of mutate, like:
+
+- `mutate_all`: applies a function to all columns (they will keep their names)
+- `mutate_at`: applies a function to a specified subset of variables
+- `mutate_if`: applies a conditional (= boolean) function to each column; if it returns `TRUE`, it will mutate the respective variable (using a given function)
+
+When interested in a specific subset of the data, one can filter for observations 
+```{r}
+#| label: students_filter
+
+students %>%
+  filter(meal_plan == "Lunch only", age > 4)
+```
+or select specific columns
+```{r}
+#| label: students_select
+
+students %>%
+  select(c(favourite_food, meal_plan, age))
+```
+
+The order of observations within a data set can be changed using `arrange()`.
+By default, the observations will be ordered in ascending order (of the selected variable(s)).
+```{r}
+#| label: students_arrange
+
+students %>%
+  arrange(age)
+```
+
+To order the data within groups specified via `group_by` use the `.by_group` argument.
+```{r}
+#| label: students_arrange_group
+
+students %>%
+  group_by(meal_plan) %>%
+  arrange(age, .by_group = TRUE)
+```
+
+When dealing with multiple relational data sets, one occasionally will
+need to join their content. `dplyr` provides different variants for joining the observations belonging to two data sets x and y:
+
+- `inner_join()`: only consider observations that exist in both data sets
+- `left_join()`: keep all observations from x and fill up with data from y
+- `right_join()`: keep all observations from y and fill up with data from x
+- `full_join()`: keep all observations
+
+Illustration of the most common join operators (source: @wickham17):
+
+:::: {.columns}
+::: {.column width="50%"}
+![](figures/orga/innerjoin)
+:::
+::: {.column width="50%"}
+![](figures/orga/outerjoin1)
+:::
+::::
+
+:::: {.columns}
+::: {.column width="50%"}
+![](figures/orga/outerjoin2)
+:::
+::: {.column width="50%"}
+![](figures/orga/outerjoin3)
+:::
+::::
+\
+
+User-specified aggregations of the data can be performed using the `summarise()` function. Useful helper functions are:
+
+- `n()`, `n_distinct()`: number of (distinct) observations
+- `mean()`, `median()`, `min()`, `max()`: location measures
+- `sd()`, `IQR()`, mad(): measures of variation
+- `first()`, `last()`, `nth()`: first, last or n-th element
+- `any()`, `all()`: logical aggregation
+
+[Example]{.underline}: Calculation of some summary statistics by group (`cyl`) using the `mtcars` data set from R:
+```{r}
+#| label: summarise
+
+mtcars %>% as_tibble()
+
+mtcars %>%
+  as_tibble() %>%
+  group_by(cyl) %>%
+  summarise(
+    no.of.cars = n(),
+    avg.hp = mean(hp),
+    min.wt = min(wt) 
+  )
+```
+
+### Tidy data with tidyr
+Use `pivot_longer()` to switch from wide to long format, i.e., gather data
+of more than one variable in a single one.
+Use `pivot_wider()` to switch from long to wide format, i.e., spread data
+of one variable across multiple variables. For illustration we first create a data set in wide format.
+
+```{r}
+#| label: wide_format
+
+old_wide = read_table("
+subject sex control cond1 cond2
+      1   M     7.9  12.3  10.7
+      2   F     6.3  10.6  11.1
+      3   F     9.5  13.1  13.8
+      4   M     11.5 13.4  12.9
+")
+
+old_wide
+```
+
+Now we use `pivot_longer()` to gather the values of the numerical variables `control`, `cond1`, and `cond2` (specified by the `cols` argument) in one variable named "measurement" (specified by the `values_to` argument). The name of the variables whose values are gathered in a single one is stored in a new column. The name of the new column is specified by the `names_to` argument.
+```{r}
+#| label: new_long
+
+new_long = old_wide %>%
+  pivot_longer(
+    cols = control:cond2, 
+    names_to = "condition",
+    values_to = "measurement")
+
+new_long
+```
+
+Going back from long to wide format.
+```{r}
+#| label: new_wide
+
+new_wide = new_long %>%
+  pivot_wider(
+    names_from = "condition", 
+    values_from = "measurement")
+
+new_wide
+```
+
+Sometimes we might want to split a character column into multiple columns. This can be done using the function `separate_wider_delim()`. We first create a simple data set for illusttation.
+```{r}
+#| label: split
+
+df = tibble(ID = rep(1, 4), 
+            Value = c(75, 80, 36.5, 37.4),
+            Var = c("mad_1", "mad_2", "temp_1", "temp_2"))
+df
+```
+
+We have to specify the name of the column that we want to split, the delimiter between values, and the new column names in the `cols`, `delim`, and `names` argument, respectively.
+```{r}
+#| label: split2
+
+df2 = df %>% separate_wider_delim(
+  cols = "Var", 
+  delim = "_",
+  names = c("Param", "Nr"))
+
+df2
+```
+
+Going back to the original data set using `unite()`.
+```{r}
+#| label: unite
+
+df2 %>% unite(col = "Var", Param:Nr, sep = "_")
+```
+
+:::
