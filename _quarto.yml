@@ -13,6 +13,7 @@ book:
     - 05_data_management.qmd
     - 06_statistics.qmd
     - 07_ml.qmd
+    - 08_visualization.qmd
     - intro.qmd
     - visualization.qmd
     - summary.qmd

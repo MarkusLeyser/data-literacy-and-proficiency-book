@@ -88,7 +88,18 @@ Every variable has a data type (i.e., scale of measurement) that determines what
 
 ![Source: <https://www.vecteezy.com/vector-art/30821802-4-types-of-data-with-nominal-ordinal-discrete-and-continuous-data>](figures/intro/datatypes2){fig-align="center"}
 
-Note that continuous variables are sometimes measured on a discrete scale (e.g., age in years). Nevertheless, we will usually analyze them as continuous variables. Likewise, discrete variables with many possible outcomes are sometimes analyzed as continuous variables, whereas quantitative variables might be analyzed like categorical ones, when only a few different outcomes are observed. Any continuous variable can be transformed into a categorical one by dividing its outcomes in discrete intervals (discretization). However, this inherently results in a loss of information.
+Note that continuous variables are sometimes measured on a discrete scale (e.g., age in years). Nevertheless, we will usually analyze them as continuous variables. Likewise, discrete variables with many possible outcomes are sometimes analyzed as continuous variables, whereas quantitative variables might be analyzed like categorical ones, when only a few different outcomes are observed. Any continuous variable can be transformed into a categorical one by dividing its outcomes in discrete intervals (discretization). However, this inherently results in a loss of information.\
+The data type classification presented above is a statistical one that focuses on the meaning and mathematical properties of data. We need this classification in order to choose appropriate methods for the data analysis. In computer science or programming you will probably encounter a different  categorization of data types that focuses on storage, memory management, and efficiency. Typically the following categories are used:
+
+- *integer:* whole numbers (e.g., 1, 2, 3,...) 
+- *numeric:* real valued numbers (e.g., 4.67, 3, 5.9,...)
+- *double:* like numeric, but with different storage precision
+- *boolean:* logical (TRUE/FALSE) values
+- *character:* letters or symbols (e.g., "male")
+- *factor:* special case of a character variable used to represent a categorical (qualitative) variable
+- *ordered:* special case of a factor variable used to represent an ordinal variable 
+
+Note that the way how a variable is stored in a software environment does not necessarily tell you something about the statistical data type. Furthermore, a software usually assigns a data type following specific rules. The assigned data type can sometimes be inappropriate. 
 
 A further characteristic of data is the **data dimennsionality**. We distinguish:
 
@@ -104,22 +115,45 @@ A further characteristic of data is the **data dimennsionality**. We distinguish
 
 
 ## Programming
+::: {style="background-color: #e6f7ff; padding: 15px;"}
 Programming is a tool that you will need if you are not only interested in understanding the theoretical foundation of data literacy and data proficiency, but also want to practically perform data analyses. \
 Throughout the course we will use the software R to demonstrate practical application of the methods presented.
-R is a free, open-source programming language and software environment designed for statistical computing, data analysis, and high-quality graphics. It can handle a wide range of basic and complex analyses making it a valuable asset for many data-related tasks.
+R is a free, open-source programming language and software environment designed for statistical computing, data analysis, and high-quality graphics. It can handle a wide range of basic and complex analyses making it a valuable asset for many data-related tasks.\
+There are also other programming languages, such as Python and Julia, that are useful for analyzing data. At the moment the programming components of the course are limited to the use of R, as it is best suited for our needs.  
 
 This chapter provides basic instructions on how to get started with R. For a more detailed introduction to the R language, please refer to [Hands on Programming](<https://rstudio-education.github.io/hopr/index.html>) by @grolemund14. 
 
-### Installing R and RStudio
-Use this link [<https://cloud.r-project.org/>] to download R. Select the proper version for your laptop.
+### Installing R
+Use this link [<https://cloud.r-project.org/>] to download R. Select the proper version for your laptop or computer.
 
 ![](figures/intro/R){fig-align="center"}
 
-RStudio is an integrated development environment that provides a user-friendly interface for writing and managing R code. You can download and install it from [<https://posit.co/downloads/>].
+### Chosing an integrated development environment
+We recommend the use of an integrated development environment (IDE) that provides a user-friendly interface for writing and managing R code. The most popular IDE for R is **RStudio**. You can download and install it from [<https://posit.co/downloads/>].
 
 ![](figures/intro/RStudio){fig-align="center"}
 
 After you have installed both R and RStudio, you can start using R by opening the RStudio program. We recommend to update R and RStudio regularly. Sometimes this requires you to re-install all your packages.
+
+An alternative to RStudio is **Positron**, a modern, next-generation IDE that supports interactive coding in Python and R. It can be downloaded and installed from <https://positron.posit.co/download.html>.
+
+### Web-based use of R and RStudio
+Using R and RStudio on a laptop or computer is the best approach for doing data science. If you need to work with R and RStudio on a device like a tablet, the **Posit Cloud** (<https://posit.cloud/>) is a viable way to do so. It provides a web-based solution, requiring no local installation of R, RStudio, or R packages. To get started, you have to
+
+1. [Sign up](https://posit.cloud/plans?_gl=1*ip73rs*_ga*MzY3MDA2Mjk3LjE3NzMzMTQ2MTY.*_ga_2C0WZ1JHG0*czE3NzcyODI4MjgkbzckZzEkdDE3NzcyODUwNjgkajQ5JGwwJGgw*_ga_SG5RN9F6BG*czE3NzcyODI4MjgkbzUkZzEkdDE3NzcyODUwNjgkajQ5JGwwJGgw*_ga_4QVBMYL7WR*czE3NzcyODI4MjgkbzUkZzEkdDE3NzcyODUwNjgkajQ5JGwwJGgw) for a free account
+2. Create a "New RStudio Project" in your workspace
+
+:::: {.columns style="column-gap: 10px;"}
+::: {.column width="45%"}
+![](figures/intro/positCloud_WS)
+:::
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
+::: {.column width="45%"}
+![](figures/intro/positCloud_newProject)
+:::
+::::
 
 ### Installing R packages
 R packages are collections of R functions, data, and compiled code that extend the functionality of the base R language. They are typically located in an online  repository that is accessible to everyone. Some of the most popular repositories for R packages are:
@@ -204,5 +238,4 @@ vignette(package = "tidyverse")
 vignette("manifesto") 
 ```
 
-
-
+:::
